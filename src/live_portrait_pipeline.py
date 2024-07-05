@@ -38,7 +38,7 @@ class LivePortraitPipeline(object):
         self.live_portrait_wrapper: LivePortraitWrapper = LivePortraitWrapper(cfg=inference_cfg)
         self.cropper = Cropper(crop_cfg=crop_cfg)
 
-    def execute(self, args: ArgumentConfig):
+    def execute(self, args: ArgumentConfig, iargs: InferenceConfig):
         inference_cfg = self.live_portrait_wrapper.cfg # for convenience
         ######## process source portrait ########
         img_rgb = load_image_rgb(args.source_image)
@@ -175,10 +175,10 @@ class LivePortraitPipeline(object):
         wfp_concat = None
 
         if inference_cfg.flag_pasteback:
-            images2video(I_p_paste_lst, wfp=args.output_path)
+            images2video(I_p_paste_lst, wfp=args.output_dir + "/tmp.mp4", fps=iargs.output_fps)
         else:
-            images2video(I_p_lst, wfp=args.output_path)
+            images2video(I_p_lst, wfp=args.output_dir + "/tmp.mp4", fps=iargs.output_fps)
         audio_path = extract_audio_from_video(args.driving_info, args.output_dir + "/tmp.aac")
-        merge_audio_video(args.output_path, audio_path, args.output_path)
+        merge_audio_video(args.output_dir + "/tmp.mp4", audio_path, args.output_path)
 
         return args.output_path, wfp_concat
