@@ -172,19 +172,11 @@ class LivePortraitPipeline(object):
                 I_p_i_to_ori_blend = paste_back(I_p_i, crop_info['M_c2o'], img_rgb, mask_ori)
                 I_p_paste_lst.append(I_p_i_to_ori_blend)
 
-        mkdir(args.output_dir)
         wfp_concat = None
-        if is_video(args.driving_info):
-            frames_concatenated = concat_frames(I_p_lst, driving_rgb_lst, img_crop_256x256)
-            # save (driving frames, source image, drived frames) result
-            wfp_concat = osp.join(args.output_dir, f'{basename(args.source_image)}--{basename(args.driving_info)}_concat.mp4')
-            images2video(frames_concatenated, wfp=wfp_concat)
 
-        # save drived result
-        wfp = osp.join(args.output_dir, f'{basename(args.source_image)}--{basename(args.driving_info)}.mp4')
         if inference_cfg.flag_pasteback:
-            images2video(I_p_paste_lst, wfp=wfp)
+            images2video(I_p_paste_lst, wfp=args.output_path)
         else:
-            images2video(I_p_lst, wfp=wfp)
+            images2video(I_p_lst, wfp=args.output_path)
 
-        return wfp, wfp_concat
+        return args.output_path, wfp_concat

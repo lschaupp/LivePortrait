@@ -16,12 +16,12 @@ class ArgumentConfig(PrintableConfig):
     ########## input arguments ##########
     source_image: Annotated[str, tyro.conf.arg(aliases=["-s"])] = make_abs_path('../../assets/examples/source/s6.jpg')  # path to the source portrait
     driving_info:  Annotated[str, tyro.conf.arg(aliases=["-d"])] = make_abs_path('../../assets/examples/driving/d0.mp4')  # path to driving video or template (.pkl format)
-    output_dir: Annotated[str, tyro.conf.arg(aliases=["-o"])] = 'animations/'  # directory to save output video
+    output_path: Annotated[str, tyro.conf.arg(aliases=["-o"])] = 'animations/tmp.mp4'  # directory to save output video
     #####################################
 
     ########## inference arguments ##########
     device_id: int = 0
-    flag_lip_zero : bool = True # whether let the lip to close state before animation, only take effect when flag_eye_retargeting and flag_lip_retargeting is False
+    flag_lip_zero: bool = True # whether let the lip to close state before animation, only take effect when flag_eye_retargeting and flag_lip_retargeting is False
     flag_eye_retargeting: bool = False
     flag_lip_retargeting: bool = False
     flag_stitching: bool = True  # we recommend setting it to True!
