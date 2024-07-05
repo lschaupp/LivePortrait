@@ -69,7 +69,10 @@ def merge_audio_video(video_fp, audio_fp, wfp):
         exec_cmd(cmd)
         print(f'merge {video_fp} and {audio_fp} to {wfp}')
     else:
+        cmd = f'mv {video_fp} {wfp}'
+        exec_cmd(cmd)
         print(f'video_fp: {video_fp} or audio_fp: {audio_fp} not exists!')
+        print(f'moved {video_fp} to {wfp}')
 
 
 def blend(img: np.ndarray, mask: np.ndarray, background_color=(255, 255, 255)):
