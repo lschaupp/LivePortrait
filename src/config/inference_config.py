@@ -33,7 +33,7 @@ class InferenceConfig(PrintableConfig):
 
     input_shape: Tuple[int, int] = (256, 256)  # input shape
     output_format: Literal['mp4', 'gif'] = 'mp4'  # output video format
-    output_fps: int = 30  # fps for output video
+    output_fps: int = 20  # fps for output video
     crf: int = 15  # crf for output video
 
     flag_write_result: bool = True  # whether to write output video

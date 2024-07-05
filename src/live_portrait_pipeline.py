@@ -19,7 +19,7 @@ from .config.inference_config import InferenceConfig
 from .config.crop_config import CropConfig
 from .utils.cropper import Cropper
 from .utils.camera import get_rotation_matrix
-from .utils.video import images2video, concat_frames
+from .utils.video import images2video, concat_frames, merge_audio_video, extract_audio_from_video
 from .utils.crop import _transform_img, prepare_paste_back, paste_back
 from .utils.retargeting_utils import calc_lip_close_ratio
 from .utils.io import load_image_rgb, load_driving_info, resize_to_limit
@@ -178,5 +178,7 @@ class LivePortraitPipeline(object):
             images2video(I_p_paste_lst, wfp=args.output_path)
         else:
             images2video(I_p_lst, wfp=args.output_path)
+        audio_path = extract_audio_from_video(args.driving_info, args.output_dir + "/tmp.aac")
+        merge_audio_video(args.output_path, audio_path, args.output_path)
 
         return args.output_path, wfp_concat

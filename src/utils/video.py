@@ -20,7 +20,7 @@ def exec_cmd(cmd):
 
 
 def images2video(images, wfp, **kwargs):
-    fps = kwargs.get('fps', 30)
+    fps = kwargs.get('fps', 20)
     video_format = kwargs.get('format', 'mp4')  # default is mp4 format
     codec = kwargs.get('codec', 'libx264')  # default is libx264 encoding
     quality = kwargs.get('quality')  # video quality
@@ -129,6 +129,17 @@ class VideoWriter:
 def change_video_fps(input_file, output_file, fps=20, codec='libx264', crf=5):
     cmd = f"ffmpeg -i {input_file} -c:v {codec} -crf {crf} -r {fps} {output_file} -y"
     exec_cmd(cmd)
+
+
+def extract_audio_from_video(video_fp, audio_fp):
+    if osp.exists(video_fp):
+        cmd = f'ffmpeg -i {video_fp} -q:a 0 -map a {audio_fp} -y'
+        exec_cmd(cmd)
+        print(f'Extracted audio from {video_fp} to {audio_fp}')
+        return audio_fp
+    else:
+        print(f'video_fp: {video_fp} does not exist!')
+        return None
 
 
 def get_fps(filepath):
