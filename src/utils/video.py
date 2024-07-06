@@ -136,8 +136,12 @@ def change_video_fps(input_file, output_file, fps=20, codec='libx264', crf=5):
 
 def extract_audio_from_video(video_fp, audio_fp):
     if osp.exists(video_fp):
-        cmd = f'ffmpeg -i {video_fp} -q:a 0 -map a {audio_fp} -y'
-        exec_cmd(cmd)
+        try:
+            cmd = f'ffmpeg -i {video_fp} -q:a 0 -map a {audio_fp} -y'
+            exec_cmd(cmd)
+        except Exception:
+            print("No audio found.")
+            return None
         print(f'Extracted audio from {video_fp} to {audio_fp}')
         return audio_fp
     else:
